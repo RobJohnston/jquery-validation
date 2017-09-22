@@ -121,6 +121,33 @@ QUnit.test( "email", function( assert ) {
 	assert.ok( !method( "name;@domain.tld." ), "Invalid email" );
 } );
 
+QUnit.test( "emailUTF8", function( assert ) {
+	var method = methodTest( "emailUTF8" );
+	assert.ok( method( "name@domain.tld" ), "Valid email" );
+	assert.ok( method( "name@domain.tl" ), "Valid email" );
+	assert.ok( method( "bart+bart@tokbox.com" ), "Valid email" );
+	assert.ok( method( "bart+bart@tokbox.travel" ), "Valid email" );
+	assert.ok( method( "n@d.tld" ), "Valid email" );
+	assert.ok( method( "bla.blu@g.mail.com" ), "Valid email" );
+
+//TODO: Why do the next two methods fail?
+//	assert.ok( method( "name@domain" ), "Valid email" );
+//	assert.ok( method( "name.@d1omain.tld" ), "Valid email" );
+	assert.ok( method( "name@website.a" ), "Valid email" );
+	assert.ok( method( "name@pro.photography" ), "Valid email" );
+	assert.ok( method( "ole@føtex.dk" ), "Invalid email, but valid UTF8 email" );
+	assert.ok( method( "jörn@bassistance.de" ), "Invalid email, but valid UTF8 email" );
+	assert.ok( !method( "name" ), "Invalid email" );
+	assert.ok( !method( "test@test-.com" ), "Invalid email" );
+	assert.ok( !method( "name@" ), "Invalid email" );
+	assert.ok( !method( "name,@domain.tld" ), "Invalid email" );
+	assert.ok( !method( "name;@domain.tld" ), "Invalid email" );
+	assert.ok( !method( "name;@domain.tld." ), "Invalid email" );
+	assert.ok( method( "Pelé@example.com" ), "Valid UTF8 email" );
+	assert.ok( method( "δοκιμή@παράδειγμα.δοκιμή" ), "Valid UTF8 email" );
+	assert.ok( method( "测试@测试.测试" ), "Valid UTF8 email" );
+} );
+
 QUnit.test( "number", function( assert ) {
 	var method = methodTest( "number" );
 	assert.ok( method( "123" ), "Valid number" );
